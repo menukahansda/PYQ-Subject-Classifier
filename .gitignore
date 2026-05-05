@@ -1,0 +1,10 @@
+backend/node_modules/
+backend/pdfs/
+backend/venv/
+
+frontend/node_modules/
+
+.env
+.env.*
+
+*.log
