@@ -27,7 +27,7 @@ os.makedirs(img_folder_path, exist_ok =True)
 #     )
 \
 convert_from_path(
-    pdf_path = f"./pdfs/{pdf_files[0]}",
+    pdf_path = f"./pdfs/{pdf_files[1]}",
     output_folder= img_folder_path,
     fmt="jpg",
     poppler_path=r"C:\Program Files\poppler-25.12.0\Library\bin",
@@ -98,13 +98,40 @@ img_files_list = sorted(
 for img_file in img_files_list:
     img_file_path = os.path.join(img_folder_path, img_file)
     text = img_to_text(img_file_path)
-    texts.append(text)
-    img2txt[img_file] = text
-    txt2img[text] = img_file
+    
+    # check if it is starting page then only it is start of text, else it is part of curr text
+    if "examinations" in text[:80].lower() or "mid-term examination" in text[:80].lower() or "end-term examination" in text[:80].lower() or "sem examination" in text[:80].lower() or "semester examination" in text[:80].lower() or "NATIONAL INSTITUTE OF TECHNOLOGY DURGAPUR" in text[:80].lower():
+        texts.append(text) 
+
+        img2txt[img_file] = text
+        txt2img[text] = []
+        txt2img[text].append(img_file)
+    else:
+        old_text = texts[-1]
+        new_text = old_text + text
+        texts.pop() # remove the old text
+        texts.append(new_text)
+
+        # remove earlier text and add new text to the same key
+        old_img_files = txt2img[old_text]
+        txt2img[new_text] = []
+        for old_img_file in old_img_files:
+            del img2txt[old_img_file]
+            img2txt[old_img_file] = new_text
+            txt2img[new_text].append(old_img_file)
+
+        del txt2img[old_text]
+
+        # add the new img file to the same text key
+        img2txt[img_file] = new_text
+        txt2img[new_text].append(img_file)
+
     print(i)
     i += 1
-    # print(text[:100])
+    # print(text[:80])
+    # print("-------------------------------------------------------")
 #endregion
+
 
 
 #region Classify Text
@@ -121,7 +148,7 @@ labels = db.labels_
 
 #region Create Clusters
 #-------------------------------------------------------------------------------------------------------------
-# check if it is starting page then only it is start of text, else it is part of curr text
+
 
 
 # making clustered folder with similar images
@@ -130,12 +157,12 @@ os.makedirs(cluster_folder_path, exist_ok=True)
 newlabel = max(labels) + 1
 for i, label in enumerate(labels):
     # if it is left or right half of the same page and one of the half has cluster then we can change it to the same cluster, 
-    if i-1 > 0 and labels[i-1] != -1:
-        if img_files_list[i-1].split('-')[0] == img_files_list[i].split('-')[0]: 
-            label = labels[i-1]
-    elif i+1 < len(labels) and labels[i+1] != -1:
-        if img_files_list[i+1].split('-')[0] == img_files_list[i].split('-')[0]: 
-            label = labels[i+1]
+    # if i-1 > 0 and labels[i-1] != -1:
+    #     if img_files_list[i-1].split('-')[0] == img_files_list[i].split('-')[0]: 
+    #         label = labels[i-1]
+    # elif i+1 < len(labels) and labels[i+1] != -1:
+    #     if img_files_list[i+1].split('-')[0] == img_files_list[i].split('-')[0]: 
+    #         label = labels[i+1]
 
     if label == -1:
         # if it is still -1 and we have it is part of the same page
@@ -145,12 +172,15 @@ for i, label in enumerate(labels):
         elif i+1 < len(labels) and img_files_list[i+1].split('-')[0] == img_files_list[i].split('-')[0]:
             label = newlabel
             newlabel += 1
-
         continue
+
     cluster_dir = os.path.join(cluster_folder_path, f"cluster_{label}")
     os.makedirs(cluster_dir, exist_ok=True)
-    img_file = txt2img[texts[i]]
-    shutil.move(os.path.join(img_folder_path, img_file), os.path.join(cluster_dir, img_file))
+
+   
+    img_files = txt2img[texts[i]]
+    for img_file in img_files: 
+        shutil.move(os.path.join(img_folder_path, img_file), os.path.join(cluster_dir, img_file))
 
 print(labels)
 #endregion
