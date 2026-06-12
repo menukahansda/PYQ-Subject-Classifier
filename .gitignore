@@ -3,6 +3,7 @@ backend/venv/
 
 # Input PDFs (ignore only if they are local test files)
 backend/pdfs/
+backend/uploaded_pdfs
 
 # Generated folders
 backend/extracted_images/
