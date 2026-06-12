@@ -26,7 +26,7 @@ It is an unsupervised learning model that classifies a given PDF input into diff
 ```text
 project-root/
 ├── backend/
-│   ├── train.py
+│   ├── pipeline.py
 │   └── main.py
 │   
 ├── frontend/
