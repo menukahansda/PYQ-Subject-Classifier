@@ -27,7 +27,7 @@ It is an unsupervised learning model that classifies a given PDF input into diff
 project-root/
 ├── backend/
 │   ├── train.py
-│   └── server.js
+│   └── main.py
 │   
 ├── frontend/
 │   ├── src/
@@ -45,13 +45,8 @@ project-root/
 
 ## Tech Stack
 
-### Backend (API layer)
-- Express.js
-
-
-### ML / Processing Layer
-- Python (OCR + clustering pipeline)
-
+### Backend 
+- FastAPI (Python)
 
 ### Frontend
 - React
@@ -82,7 +77,6 @@ cd PYQ-Subject-Classifier
 ### Backend Setup
 
 ```bash
-npm install
 pip install -r requirements.txt
 ```
 
@@ -99,7 +93,9 @@ npm install
 ### Run Backend
 
 ```bash
-npm start
+python main.py 
+    or 
+py main.py
 ```
 
 ### Run Frontend
