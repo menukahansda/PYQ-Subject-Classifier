@@ -39,5 +39,8 @@ def run_pipeline(zip_name):             # pass user name as zip name
 
     run_clustering()
 
+    rebuild_pdfs()
+    print("PDFs are rebuild...")
+    
     shutil.make_archive(zip_name, 'zip', OUTPUT_PDF_FOLDER)
     _cleanup()
