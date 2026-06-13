@@ -16,8 +16,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-upload_folder = "uploaded_pdfs"
-port = int(os.environ.get("PORT", 8000))
+upload_folder = os.getenv("INPUT_FOLDER", "uploaded_pdfs")
+port = int(os.getenv("PORT", 8000))
 
 @app.get("/")
 def read_root():
