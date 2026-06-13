@@ -3,6 +3,9 @@ import { useRef, useState } from "react";
 export default function FileUploader() {
   const fileInputRef = useRef(null);
   const [fileSelected, setFileSelected] = useState(false);
+  const [isResult, setIsResult] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [blob, setBlob] = useState(null); // blob is used in handleDownloadClick but never stored
   const handleSelectClick = () => {
     fileInputRef.current.click();
   };
@@ -40,20 +43,39 @@ export default function FileUploader() {
     });
 
     // fecth logic
+    setIsLoading(true);
     fetch(`${import.meta.env.VITE_API_URL}/process-pdfs`, {
       method: "POST",
       body: formData,
     })
       .then((response) => {
-        if (response.ok) {
-          console.log("POST request sent successfully");
-        } else {
-          console.log("POST request failed with status:", response.status);
-        }
+        if (!response.ok)
+          throw new Error(`HTTP error! status: ${response.status}`);
+
+        const message = response.headers.get("X-Message");
+        console.log(message);
+
+        return response.blob();
+      })
+      .then((blob) => {
+        setBlob(blob);
+        setIsResult(true);
       })
       .catch((error) => {
         console.error("Network error or server not reachable:", error);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
+  };
+  const handleDownloadClick = () => {
+    if (!blob) return;
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "output.zip";
+    a.click();
+    URL.revokeObjectURL(url);
   };
   return (
     <>
@@ -70,9 +92,15 @@ export default function FileUploader() {
           style={{ display: "none" }}
         />
       </div>
-      {fileSelected && (
+      {fileSelected && !isLoading && !isResult && (
         <button className="process-btn" onClick={handleProcessClick}>
           Process PDF
+        </button>
+      )}
+
+      {isResult && (
+        <button className="process-btn" onClick={handleDownloadClick}>
+          {isLoading ? "Processing..." : "Download ZIP"}
         </button>
       )}
     </>
