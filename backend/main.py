@@ -8,6 +8,9 @@ import uvicorn
 import shutil
 import os
 
+from constants import PDF_INPUT_FOLDER
+from pipeline import run_pipeline
+
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
@@ -16,7 +19,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-upload_folder = os.getenv("INPUT_FOLDER", "uploaded_pdfs")
 port = int(os.getenv("PORT", 8000))
 
 @app.get("/")
@@ -30,12 +32,14 @@ async def process_pdfs(pdfs: list[UploadFile] = File(...)):
     print("Received PDF files:", [pdf.filename for pdf in pdfs])
     
     # add the processing logic
-    os.makedirs(upload_folder, exist_ok=True)
+    os.makedirs(PDF_INPUT_FOLDER , exist_ok=True)
+
     for pdf in pdfs:
-        with open(f"{upload_folder}/{pdf.filename}", "wb") as f:
+        with open(f"{PDF_INPUT_FOLDER}/{pdf.filename}", "wb") as f:
             f.write(await pdf.read())
 
-    print("PDF files saved to disk:")
+    print("PDF files saved to disk...")
+    run_pipeline("testResult")
     return JSONResponse(content={"message": "PDF files received and processed successfully"}, status_code=200)
 
 if __name__ == "__main__":
