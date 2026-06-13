@@ -38,9 +38,10 @@ def run_pipeline(zip_name):             # pass user name as zip name
     print("Images splitted if 1 image contains 2 pages...")
 
     run_clustering()
-
+    print(f"Cluster folders: {os.listdir(CLUSTER_FOLDER)}") 
+    
     rebuild_pdfs()
-    print("PDFs are rebuild...")
+    print(f"Files in OUTPUT_PDF_FOLDER: {os.listdir(OUTPUT_PDF_FOLDER)}")
     
     shutil.make_archive(zip_name, 'zip', OUTPUT_PDF_FOLDER)
     _cleanup()
