@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from fastapi import FastAPI, UploadFile, File
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import shutil
@@ -17,6 +17,7 @@ app.add_middleware(
     allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["X-Message"],
 )
 
 port = int(os.getenv("PORT", 8000))
@@ -64,8 +65,20 @@ async def process_pdfs(pdfs: list[UploadFile] = File(...)):
     print("PDF files saved to disk...")
 
     # run the actual pipeline
-    run_pipeline(ZIP_FILENAME)
-    return JSONResponse(content={"message": "PDF files received and processed successfully"}, status_code=200)
+    try:
+        run_pipeline(ZIP_FILENAME)
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"error": str(e)})
+
+    if not os.path.exists(ZIP_FILE):
+        return JSONResponse(status_code=500, content={"error": "ZIP file was not created"})
+
+    return FileResponse(
+        path=ZIP_FILE,
+        filename="output.zip",
+        media_type="application/zip",
+        headers={"X-Message": "PDF processed successfully"}
+    )
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True)
