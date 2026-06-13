@@ -20,7 +20,8 @@ app.add_middleware(
 )
 
 port = int(os.getenv("PORT", 8000))
-ZIP_OUTPUT_FOLDER = "testResults"
+ZIP_FILENAME = "testResults"
+ZIP_FILE = ZIP_FILENAME + ".zip"
 
 @app.get("/")
 def read_root():
@@ -39,10 +40,12 @@ def reset():
 
     if os.path.exists(PDF_INPUT_FOLDER):
         shutil.rmtree(PDF_INPUT_FOLDER)
-        
         print(f"Cleaned up {PDF_INPUT_FOLDER}")
-    if os.path.exists(ZIP_OUTPUT_FOLDER):  
-        shutil.rmtree(ZIP_OUTPUT_FOLDER)
+
+    if os.path.exists(ZIP_FILE):  
+        os.remove(ZIP_FILE)
+        print("cleaned zip")
+
     return JSONResponse(content={"message": "Input folder cleared"}, status_code=200)
 
 @app.post("/process-pdfs")
@@ -51,7 +54,7 @@ async def process_pdfs(pdfs: list[UploadFile] = File(...)):
         return JSONResponse(status_code=400, content={"error": "No PDF files uploaded"})
     print("Received PDF files:", [pdf.filename for pdf in pdfs])
     
-    # add the processing logic
+    # create folder and add pdf
     os.makedirs(PDF_INPUT_FOLDER , exist_ok=True)
 
     for pdf in pdfs:
@@ -59,7 +62,9 @@ async def process_pdfs(pdfs: list[UploadFile] = File(...)):
             f.write(await pdf.read())
 
     print("PDF files saved to disk...")
-    run_pipeline(ZIP_OUTPUT_FOLDER)
+
+    # run the actual pipeline
+    run_pipeline(ZIP_FILENAME)
     return JSONResponse(content={"message": "PDF files received and processed successfully"}, status_code=200)
 
 if __name__ == "__main__":
