@@ -8,7 +8,7 @@ import uvicorn
 import shutil
 import os
 
-from constants import PDF_INPUT_FOLDER
+from constants import PDF_INPUT_FOLDER, IMG_FOLDER, CLUSTER_FOLDER, OUTPUT_PDF_FOLDER
 from pipeline import run_pipeline
 
 app = FastAPI()
@@ -20,10 +20,30 @@ app.add_middleware(
 )
 
 port = int(os.getenv("PORT", 8000))
+ZIP_OUTPUT_FOLDER = "testResults"
 
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
+
+@app.get("/reset")
+def reset():
+    if os.path.isdir(IMG_FOLDER):
+        shutil.rmtree(IMG_FOLDER)
+
+    if os.path.isdir(CLUSTER_FOLDER):
+        shutil.rmtree(CLUSTER_FOLDER)
+
+    if os.path.isdir(OUTPUT_PDF_FOLDER):
+        shutil.rmtree(OUTPUT_PDF_FOLDER)
+
+    if os.path.exists(PDF_INPUT_FOLDER):
+        shutil.rmtree(PDF_INPUT_FOLDER)
+        
+        print(f"Cleaned up {PDF_INPUT_FOLDER}")
+    if os.path.exists(ZIP_OUTPUT_FOLDER):  
+        shutil.rmtree(ZIP_OUTPUT_FOLDER)
+    return JSONResponse(content={"message": "Input folder cleared"}, status_code=200)
 
 @app.post("/process-pdfs")
 async def process_pdfs(pdfs: list[UploadFile] = File(...)):
@@ -39,7 +59,7 @@ async def process_pdfs(pdfs: list[UploadFile] = File(...)):
             f.write(await pdf.read())
 
     print("PDF files saved to disk...")
-    run_pipeline("testResult")
+    run_pipeline(ZIP_OUTPUT_FOLDER)
     return JSONResponse(content={"message": "PDF files received and processed successfully"}, status_code=200)
 
 if __name__ == "__main__":
