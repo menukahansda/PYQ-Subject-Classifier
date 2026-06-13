@@ -1,8 +1,10 @@
 import "./App.css";
 import FileUploader from "./components/FileUploader";
+import { useEffect } from "react";
 
 export default function App() {
-  return (
-    <FileUploader />
-  );
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/reset`);
+  }, []);
+  return <FileUploader />;
 }
