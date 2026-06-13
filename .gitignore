@@ -11,7 +11,7 @@ backend/clusters/
 backend/pdfs_output/
 
 # Generated archive
-backend/pdfs_output.zip
+backend/*.zip
 
 frontend/node_modules/
 
