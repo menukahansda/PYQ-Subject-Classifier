@@ -18,7 +18,18 @@ EXAM_KEYWORDS = [
     "end-term examination",
     "sem examination",
     "semester examination",
-    "national institute of technology durgapur"
+    "national institute of technology durgapur",
+    "b. tech",
+    "b.tech",
+    "mid sem",
+    "mid-sem",
+    "mid term",
+    "mid-term",
+    "national institute of technology",
+    "department of computer science",
+    "full marks",
+    "subject:",
+    "nit durgapur",
 ]
 
 # DBSCAN clustering
