@@ -10,8 +10,9 @@ backend/extracted_images/
 backend/clusters/
 backend/pdfs_output/
 
-# Generated archive
+# Generated archive and txt
 backend/*.zip
+backend/headers.txt
 
 frontend/node_modules/
 
