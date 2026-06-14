@@ -39,6 +39,9 @@ def reset():
     if os.path.isdir(OUTPUT_PDF_FOLDER):
         shutil.rmtree(OUTPUT_PDF_FOLDER)
 
+    if os.path.exists("headers.txt"):
+        os.remove("headers.txt")
+        
     if os.path.exists(PDF_INPUT_FOLDER):
         shutil.rmtree(PDF_INPUT_FOLDER)
         print(f"Cleaned up {PDF_INPUT_FOLDER}")
