@@ -24,20 +24,32 @@ It is an unsupervised learning model that classifies a given PDF input into diff
 ## Project Structure
 
 ```text
-project-root/
+PYQ Subject Classifier/
 ├── backend/
+│   ├── clustering.py
+│   ├── constants.py
+│   ├── image_processing.py
+│   ├── pdf_utils.py
 │   ├── pipeline.py
-│   └── main.py
-│   
+│   ├── main.py
+│   └── requirements.txt
+│
 ├── frontend/
+│   ├── public/
+│   │   └── favicon.ico
+│   │
 │   ├── src/
+│   │   ├── component/
+│   │   │   └── FileUploader.jsx
 │   │   ├── App.css
 │   │   ├── App.jsx
 │   │   ├── index.css
-│   │   ├── main.jsx
-│   
+│   │   └── main.jsx
+│   │
+│   └── index.html
+│
 ├── .gitignore
-├── README.md
+└── README.md
 
 ```
 
