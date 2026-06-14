@@ -89,12 +89,19 @@ cd PYQ-Subject-Classifier
 ### Backend Setup
 
 ```bash
+cd backend
+
+# Create virtual environment
+python -m venv venv
+
+# Install dependencies
 pip install -r requirements.txt
 ```
 
 ### Frontend Setup
 
 ```bash
+cd frontend
 npm install
 ```
 
@@ -105,8 +112,16 @@ npm install
 ### Run Backend
 
 ```bash
+# Git Bash
+source venv/Scripts/activate
+
+# Windows Command Prompt
+venv\Scripts\activate
+
+# Run the application
 python main.py 
-    or 
+    
+# or 
 py main.py
 ```
 
