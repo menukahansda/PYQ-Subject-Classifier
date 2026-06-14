@@ -38,12 +38,27 @@ def split_two_page_images():
 # cut from point which has least noise or least dark pixels
 #endregion
 
+# process the text, remove extra new line and lots of white space
+def _normalize_text(text):
+    lines = text.split("\n")
+    processed = []
+    for line in lines:
+        line = line.strip()
+        if not line:
+            continue
 
+        if line[-1] not in ".,?:;!":
+            line += '.'                     # add . for non ending sentences
+        processed.append(line)  
+
+    new_text = " ".join(processed)
+    return " ".join(new_text.split())        #remove extra whitespaces
 
 #region image to text
 # extract text from images and save the text
 def img_to_text(img_path):
     gray = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
     text = pytesseract.image_to_string(gray)
-    return text
+    cleaned_text = _normalize_text(text)
+    return cleaned_text
 #endregion
