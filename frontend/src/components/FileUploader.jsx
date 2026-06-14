@@ -93,15 +93,19 @@ export default function FileUploader() {
         />
       </div>
       {fileSelected && !isLoading && !isResult && (
-        <button className="process-btn" onClick={handleProcessClick}>
-          Process PDF
-        </button>
+        <div>
+          <button className="process-btn" onClick={handleProcessClick}>
+            Process PDF
+          </button>
+        </div>
       )}
 
       {isResult && (
-        <button className="process-btn" onClick={handleDownloadClick}>
-          {isLoading ? "Processing..." : "Download ZIP"}
-        </button>
+        <div>
+          <button className="download-btn" onClick={handleDownloadClick}>
+            {isLoading ? "Processing..." : "Download ZIP"}
+          </button>
+        </div>
       )}
     </>
   );
