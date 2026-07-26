@@ -48,12 +48,20 @@ PYQ Subject Classifier/
 │   │
 │   └── index.html
 │
+├── package.json
 ├── .gitignore
 └── README.md
 
 ```
 
 ---
+
+## Prerequisites
+
+- Python 3.x
+- Node.js and npm
+- Tesseract OCR
+- Poppler (for PDF to image conversion)
 
 ## Tech Stack
 
@@ -94,6 +102,14 @@ cd backend
 # Create virtual environment
 python -m venv venv
 
+# Activate virtual environment
+
+# Git Bash
+source venv/Scripts/activate
+
+# Windows Command Prompt
+venv\Scripts\activate
+
 # Install dependencies
 pip install -r requirements.txt
 ```
@@ -107,7 +123,26 @@ npm install
 
 ---
 
+## Environment Variables
+
+Create a `.env` file inside the `backend` directory:
+
+```env
+PORT=8000
+POPPLER_PATH=<path-to-poppler>
+```
+
 ## Usage
+
+### Run from Root Folder
+
+After completing the backend and frontend setup, run:
+
+```bash
+npm start
+```
+
+This starts both the FastAPI backend and the React frontend concurrently.
 
 ### Run Backend
 
@@ -178,4 +213,4 @@ npm run dev
 ## Author
 
 - Name: Menuka Hansda
-- GitHub: [github link](https://github.com/menukahansda)
+- GitHub: [@menukahansda](https://github.com/menukahansda)

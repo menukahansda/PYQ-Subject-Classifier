@@ -15,6 +15,7 @@ backend/*.zip
 backend/headers.txt
 
 frontend/node_modules/
+node_modules/
 
 .env
 .env.*
@@ -32,3 +33,6 @@ __pycache__/
 # OS files
 .DS_Store
 Thumbs.db
+
+# personal files
+notes.md

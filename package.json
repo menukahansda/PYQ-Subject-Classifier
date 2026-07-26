@@ -1,0 +1,26 @@
+{
+  "name": "pyq-subject-classifier",
+  "version": "1.0.0",
+  "description": "It is an unsupervised learning model that classifies a given PDF input into different subjects and returns a ZIP archive containing the classified subject-wise PDFs.",
+  "main": "index.js",
+  "scripts": {
+    "backend": "cd backend && source venv/Scripts/activate && python main.py",
+    "frontend": "cd frontend && npm run dev",
+    "start": "concurrently \"npm run backend\" \"npm run frontend\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/menukahansda/PYQ-Subject-Classifier.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/menukahansda/PYQ-Subject-Classifier/issues"
+  },
+  "homepage": "https://github.com/menukahansda/PYQ-Subject-Classifier#readme",
+  "devDependencies": {
+    "concurrently": "^10.0.4"
+  }
+}
