@@ -5,6 +5,7 @@ IMG_FOLDER = "extracted_images"
 CLUSTER_FOLDER = "clusters"
 OUTPUT_PDF_FOLDER = "pdfs_output"
 PDF_INPUT_FOLDER = "uploaded_pdfs"
+TEST_PDFS_FOLDER = "test_pdfs"
 
 # PDF extraction
 POPPLER_PATH = os.getenv("POPPLER_PATH")  
