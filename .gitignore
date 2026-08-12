@@ -41,4 +41,5 @@ notes.md
 output.zip
 
 # test files
-backend/notebooks/test_pdfs/
+backend/test_pdfs/
+backend/notebooks/texts.pkl
