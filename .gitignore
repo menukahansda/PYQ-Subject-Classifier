@@ -42,4 +42,4 @@ output.zip
 
 # test files
 backend/test_pdfs/
-backend/notebooks/texts.pkl
+backend/notebooks/*.pkl
