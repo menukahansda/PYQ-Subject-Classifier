@@ -23,18 +23,17 @@ def _associate_images_with_text(img_files_list, texts, img2txt, txt2img):
             txt2img[textIndex] = []
             txt2img[textIndex].append(img_file)
             textIndex += 1
+            with open("headers.txt", "a") as f:
+                f.write(f"Page {i}")
+                f.write("-------------------------------------------------------------------------------------------\n")
+                f.write(text)
+                f.write("...\n\n")
         else:
             texts[-1] += text
             img2txt[img_file] = textIndex - 1
             txt2img[textIndex - 1].append(img_file)
 
-        print(i)
-        with open("headers.txt", "a") as f:
-            f.write(f"Page {i}")
-            f.write("-------------------------------------------------------------------------------------------\n")
-            f.write(text)
-            f.write("...\n\n")
-            
+        print(i)            
 
         # print(text[:80])
         # print("-------------------------------------------------------")
