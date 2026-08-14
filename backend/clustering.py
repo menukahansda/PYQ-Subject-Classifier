@@ -4,7 +4,7 @@ import shutil
 import os
 
 from image_processing import img_to_text
-from constants import IMG_FOLDER, CLUSTER_FOLDER, EXAM_KEYWORDS
+from constants import IMG_FOLDER, CLUSTER_FOLDER, EXAM_KEYWORDS, KEYWORD_SEARCH_DEPTH
 
 # region associate images with text
 
@@ -16,7 +16,7 @@ def _associate_images_with_text(img_files_list, texts, img2txt, txt2img):
         text = img_to_text(img_file_path)
 
         # check if it is starting page then only it is start of text, else it is part of curr text
-        if not texts or any(kw in text[:80].lower() for kw in EXAM_KEYWORDS):
+        if not texts or any(kw in text[:KEYWORD_SEARCH_DEPTH].lower() for kw in EXAM_KEYWORDS):
             texts.append(text)
 
             img2txt[img_file] = textIndex
@@ -37,7 +37,7 @@ def _associate_images_with_text(img_files_list, texts, img2txt, txt2img):
 
         print(i)
 
-        # print(text[:80])
+        # print(text[:KEYWORD_SEARCH_DEPTH])
         # print("-------------------------------------------------------")
 
 

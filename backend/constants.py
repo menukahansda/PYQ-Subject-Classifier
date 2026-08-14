@@ -11,7 +11,7 @@ TEST_PDFS_FOLDER = "test_pdfs"
 POPPLER_PATH = os.getenv("POPPLER_PATH")  
 
 # OCR 
-KEYWORD_SEARCH_DEPTH = 80
+KEYWORD_SEARCH_DEPTH = 200
 EXAM_KEYWORDS = [
     "examinations",
     "examination",
