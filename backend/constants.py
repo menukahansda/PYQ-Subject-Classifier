@@ -22,6 +22,7 @@ EXAM_KEYWORDS = [
     "national institute of technology durgapur",
     "b. tech",
     "b.tech",
+    "btech",
     "mid sem",
     "mid-sem",
     "mid term",
@@ -30,7 +31,33 @@ EXAM_KEYWORDS = [
     "department of computer science",
     "full marks",
     "subject:",
+    "course code",
     "nit durgapur",
+    
+    "odd semester",
+    "even semester",
+    "odd sem",
+    "even sem",
+    "odd.",
+    "even.",
+    
+    # registration / academic year
+    "reg.",
+    "reg ",
+    "regular",
+    
+    # institution variants
+    "nitdgp",
+    "nitdgp/btech",
+    "n.i.t. durgapur",
+    
+    # paper/header terminology
+    "course code:",
+    "course name:",
+    "subject code",
+    "paper code",
+    "question paper no.:",
+    "date of exam:",
 ]
 
 # DBSCAN clustering
