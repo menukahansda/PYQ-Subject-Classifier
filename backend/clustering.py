@@ -16,20 +16,30 @@ def _associate_images_with_text(img_files_list, texts, img2txt, txt2img):
         text = img_to_text(img_file_path)
 
         # check if it is starting page then only it is start of text, else it is part of curr text
-        if not texts or any(kw in text[:KEYWORD_SEARCH_DEPTH].lower() for kw in EXAM_KEYWORDS):
+        if not texts or any(
+            kw in text[:KEYWORD_SEARCH_DEPTH].lower() for kw in EXAM_KEYWORDS
+        ):
+            with open("headers.txt", "a") as f:
+                f.write(f"Page {i}")
+                f.write(
+                    "-------------------------------------------------------------------------------------------\n"
+                )
+                f.write(text[:KEYWORD_SEARCH_DEPTH])
+                f.write("...\n\n")
+            print(f"NewPage written to headers.txt")
             texts.append(text)
 
             img2txt[img_file] = textIndex
             txt2img[textIndex] = []
             txt2img[textIndex].append(img_file)
             textIndex += 1
-            with open("headers.txt", "a") as f:
-                f.write(f"Page {i}")
-                f.write(
-                    "-------------------------------------------------------------------------------------------\n"
-                )
-                f.write(text)
-                f.write("...\n\n")
+            # with open("headers.txt", "a") as f:
+            #     f.write(f"Page {i}")
+            #     f.write(
+            #         "-------------------------------------------------------------------------------------------\n"
+            #     )
+            #     f.write(text)
+            #     f.write("...\n\n")
         else:
             texts[-1] += text
             img2txt[img_file] = textIndex - 1
